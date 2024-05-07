@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Cart;
+use Illuminate\Support\Facades\Session;
 // Creating the 'Helpers' folder and the 'CUSTOM' 'Helper.php' file, then autoload/register it in 'composer.json' file
 // echo 'Testing this Helper.php \'CUSTOM\' file<br>';
 
@@ -55,3 +56,64 @@ function getCartItems() { // this method is called (used) in cart() method in Fr
 
     return $getCartItems;
 }
+
+
+// here I included the function ConvertPrice to be used in the products layouts and the pricing conversion
+//I will be using the free exchangerate api call service registered under my account voltaire.bouharb@gmail.com
+function ConvertPrice($currr, $prodppp) { 
+            $NEW_price = 1;
+            if($currr == 'EUR'){
+			$NEW_price = round(($prodppp * Session::get('CUREUR')), 2);
+            }
+            if($currr == 'LBP'){
+                $NEW_price = round(($prodppp * Session::get('CURLBP')), 2);
+            }               
+            if($currr == 'BGP'){
+                $NEW_price = round(($prodppp * Session::get('CURBGP')), 2);
+            }               
+            if($currr == 'KWD'){
+                $NEW_price = round(($prodppp * Session::get('CURKWD')), 2);
+            }               
+            if($currr == 'USD'){
+                $NEW_price = $prodppp;
+            }                           
+            return $NEW_price;
+            //return Session::get('CURKWD');
+
+}
+
+// here I included the function ConvertPrice to be used in the products layouts and the pricing conversion
+//I will be using the free exchangerate api call service registered under my account voltaire.bouharb@gmail.com
+function ConvertPriceLocal() { 
+    $req_url = 'https://v6.exchangerate-api.com/v6/8433123e7be529469e05db83/latest/USD';
+    $response_json = file_get_contents($req_url);
+    
+    // Continuing if we got a result
+    if(false !== $response_json) {
+    
+        // Try/catch for json_decode operation
+        try {
+    
+            // Decoding
+            $response = json_decode($response_json);
+    
+            // Check for success
+            if('success' === $response->result) {
+    
+                // YOUR APPLICATION CODE HERE, e.g.
+                //$base_price = 12; // Your price in USD
+                Session::put('CUREUR', $response->conversion_rates->EUR);
+                Session::put('CURLBP', $response->conversion_rates->LBP);
+                Session::put('CURGBP', $response->conversion_rates->GBP);
+                Session::put('CURKWD', $response->conversion_rates->KWD);
+                }                                                
+
+            }
+    
+        
+        catch(Exception $e) {
+            // Handle JSON parse error...
+        }
+    }
+}
+   
