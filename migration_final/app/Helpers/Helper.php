@@ -68,8 +68,8 @@ function ConvertPrice($currr, $prodppp) {
             if($currr == 'LBP'){
                 $NEW_price = round(($prodppp * Session::get('CURLBP')), 2);
             }               
-            if($currr == 'BGP'){
-                $NEW_price = round(($prodppp * Session::get('CURBGP')), 2);
+            if($currr == 'GBP'){
+                $NEW_price = round(($prodppp * Session::get('CURGBP')), 2);
             }               
             if($currr == 'KWD'){
                 $NEW_price = round(($prodppp * Session::get('CURKWD')), 2);
