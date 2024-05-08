@@ -341,6 +341,8 @@
                                     <button class="button button-outline-secondary" type="submit">Add to cart</button>
                                     <button class="button button-outline-secondary far fa-heart u-s-m-l-6"></button>
                                     <button class="button button-outline-secondary far fa-envelope u-s-m-l-6"></button>
+                                    <a href="{{ url('/chatify') }}" class="checkout" style="border-color:black">Chat Now With Vendor</a>
+                                    
                                 </div>
 
 

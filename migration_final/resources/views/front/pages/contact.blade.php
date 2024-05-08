@@ -120,16 +120,16 @@
                         <h1 class="contact-h1">Contact Us</h1>
                         <div class="contact-material u-s-m-b-16">
                             <h6>Location</h6>
-                            <span>Lebanon.</span>
-                            <span>Beirut, Lebanon</span>
+                            <span>10 Salah Salem St.</span>
+                            <span>Cairo, Egypt</span>
                         </div>
                         <div class="contact-material u-s-m-b-16">
                             <h6>Email</h6>
-                            <span>admin@admin.com</span>
+                            <span>developers@computerscience.com</span>
                         </div>
                         <div class="contact-material u-s-m-b-16">
                             <h6>Telephone</h6>
-                            <span>+9613333333</span>
+                            <span>+201122237359</span>
                         </div>
                     </div>
                 </div>

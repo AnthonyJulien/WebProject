@@ -80,19 +80,19 @@
                         <ul>
                             <li>
                                 <i class="fas fa-location-arrow u-s-m-r-9"></i>
-                                <span>Laravel E-commerce Application</span>
+                                <span>Multi-vendor E-commerce Application</span>
                             </li>
                             <li>
-                                <a href="tel:+9613333333">
+                                <a href="tel:+201255845857">
                                 <i class="fas fa-phone u-s-m-r-9"></i>
-                                <span>+9613333333</span>
+                                <span>+01255845857</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:admin@admin.com">
+                                <a href="mailto:info@multi-vendore-commerce.com">
                                 <i class="fas fa-envelope u-s-m-r-9"></i>
                                 <span>
-                                admin@admin.com</span>
+                                info@multi-vendore-commerce.com</span>
                                 </a>
                             </li>
                         </ul>
@@ -142,8 +142,8 @@
                     </li>
                 </ul>
             </div>
-            <p class="copyright-text">Copyright &copy; 2024
-                <a target="_blank" rel="nofollow" href="#">Laravel E-commerce Application</a> | All Right Reserved
+            <p class="copyright-text">Copyright &copy; 2022
+                <a target="_blank" rel="nofollow" href="#">Multi-vendor E-commerce Application</a> | All Right Reserved
             </p>
         </div>
     </div>

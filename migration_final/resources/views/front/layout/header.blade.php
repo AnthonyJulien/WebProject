@@ -1,15 +1,7 @@
 <?php
 // Getting the 'enabled' sections ONLY and their child categories (using the 'categories' relationship method) which, in turn, include their 'subcategories`
 $sections = \App\Models\Section::sections();
-use Illuminate\Support\Facades\Session;
-if (Session::has('currency')){
-}else{
-Session::put('currency', 'USD');
-}
-ConvertPriceLocal();
 // dd($sections);
-// putting the session currency in a variable
-$var_selected_currency = Session::get('currency');
 ?>
 
 
@@ -22,14 +14,14 @@ $var_selected_currency = Session::get('currency');
             <nav>
                 <ul class="primary-nav g-nav">
                     <li>
-                        <a href="tel:+9613333333">
+                        <a href="tel:+201255845857">
                         <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                        Telephone: +9613333333</a>
+                        Telephone: +201255845857</a>
                     </li>
                     <li>
-                        <a href="mailto:admin@admin.com">
+                        <a href="mailto:info@multi-vendore-commerce.com">
                         <i class="fas fa-envelope u-c-brand u-s-m-r-9"></i>
-                        E-mail: admin@admin.com 
+                        E-mail: info@multi-vendore-commerce.com
                         </a>
                     </li>
                 </ul>
@@ -107,53 +99,18 @@ $var_selected_currency = Session::get('currency');
                         </ul>
                     </li>
                     <li>
-                    <div class="col-8 col-sm-4">
-                     <select class="form-select form-select-sm" id="select-currency">
-                     <option value="USD" @if($var_selected_currency == 'USD') selected @endif>USD</option>   
-                     <option value="LBP" @if($var_selected_currency == 'LBP') selected @endif>LBP</option>
-                     <option value="EUR" @if($var_selected_currency == 'EUR') selected @endif>EUR</option>
-                     <option value="GBP" @if($var_selected_currency == 'GBP') selected @endif>GBP</option>
-                     <option value="KWD" @if($var_selected_currency == 'KWD') selected @endif>KWD</option>
-                    <!--
-                     <option>USD</option>
-                    <option>LBP</option>
-                    <option>EUR</option>
-                    <option>GBP</option>
-                    <option>KWD</option>
-                    -->                    
-                    </select></div>
-
-                 <!-- 
-                <div class="alert alert-success">
-                    <p>{{ $var_selected_currency }}</p>
-                </div>
-                -->
-
-
-                         <!--       
-                        <a>USD
+                        <a>EGP
                         <i class="fas fa-chevron-down u-s-m-l-9"></i>
                         </a>
                         <ul class="g-dropdown" style="width:90px">
                             <li>
-                                <a href="#" class="u-c-brand">USD</a>
+                                <a href="#" class="u-c-brand">LE EGP</a>
                             </li>
                             <li>
-                                <a href="#">LBP</a>
-                            </li>
-                            <li>
-                                <a href="#">EUR</a>
-                            </li>
-                            <li>
-                                <a href="#">GBP</a>
-                            </li>
-                            <li>
-                                <a href="#">KWD</a>
+                                <a href="#">($) USD</a>
                             </li>
                         </ul>
                     </li>
-                    -->
-                    <!--
                     <li>
                         <a>ENG
                         <i class="fas fa-chevron-down u-s-m-l-9"></i>
@@ -166,9 +123,6 @@ $var_selected_currency = Session::get('currency');
                                 <a href="#">ARB</a>
                             </li>
                         </ul>
-                    </li>
-                            -->
-                    
                 </ul>
             </nav>
         </div>

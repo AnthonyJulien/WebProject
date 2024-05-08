@@ -99,9 +99,10 @@
                             <a href="{{ url('/') }}" class="continue">Continue Shopping</a>
                             <a href="{{ url('/checkout') }}" class="checkout">Proceed to Checkout</a>
                         </div>
+
+                      
                     </div>
                     <!-- Coupon /- -->
-
 
 
 
