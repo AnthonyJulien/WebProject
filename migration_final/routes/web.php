@@ -111,36 +111,15 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
 
 
         // Orders
-        // Render admin/orders/orders.blade.php page (Orders Management section) in the Admin Panel
         Route::get('orders', 'OrderController@orders');
 
-        // Render admin/orders/order_details.blade.php (View Order Details page) when clicking on the View Order Details icon in admin/orders/orders.blade.php (Orders tab under Orders Management section in Admin Panel)
         Route::get('orders/{id}', 'OrderController@orderDetails'); 
 
-        // Update Order Status (which is determined by 'admin'-s ONLY, not 'vendor'-s, in contrast to "Update Item Status" which can be updated by both 'vendor'-s and 'admin'-s) (Pending, Shipped, In Progress, Canceled, ...) in admin/orders/order_details.blade.php in Admin Panel
-        // Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc.
         Route::post('update-order-status', 'OrderController@updateOrderStatus');
 
-        // Update Item Status (which can be determined by both 'vendor'-s and 'admin'-s, in contrast to "Update Order Status" which is updated by 'admin'-s ONLY, not 'vendor'-s) (Pending, In Progress, Shipped, Delivered, ...) in admin/orders/order_details.blade.php in Admin Panel
-        // Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc.
         Route::post('update-order-item-status', 'OrderController@updateOrderItemStatus');
 
-        // Orders Invoices
-        // Render order invoice page (HTML) in order_invoice.blade.php
         Route::get('orders/invoice/{id}', 'OrderController@viewOrderInvoice'); 
-
-        // Render order PDF invoice in order_invoice.blade.php using Dompdf Package
-        Route::get('orders/invoice/pdf/{id}', 'OrderController@viewPDFInvoice'); 
-
-        // Shipping Charges module
-        // Render the Shipping Charges page (admin/shipping/shipping_charges.blade.php) in the Admin Panel for 'admin'-s only, not for vendors
-        Route::get('shipping-charges', 'ShippingController@shippingCharges');
-
-        // Update Shipping Status (active/inactive) via AJAX in admin/shipping/shipping_charages.blade.php, check admin/js/custom.js
-        Route::post('update-shipping-status', 'ShippingController@updateShippingStatus');
-
-        // Render admin/shipping/edit_shipping_charges.blade.php page in case of HTTP 'GET' request ('Edit/Update Shipping Charges'), or hadle the HTML Form submission in the same page in case of HTTP 'POST' request
-        Route::match(['get', 'post'], 'edit-shipping-charges/{id}', 'ShippingController@editShippingCharges'); 
 
 
 
@@ -158,19 +137,6 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
     });
 
 });
-
-
-
-
-
-
-// User download order PDF invoice (We'll use the same viewPDFInvoice() function (but with different routes/URLs!) to render the PDF invoice for 'admin'-s in the Admin Panel and for the user to download it!) (we created this route outside outside the Admin Panel routes so that the user could use it!)
-Route::get('orders/invoice/download/{id}', 'App\Http\Controllers\Admin\OrderController@viewPDFInvoice');
-
-
-
-
-
 
 // Second: FRONT section routes:
 Route::namespace('App\Http\Controllers\Front')->group(function() {
@@ -280,11 +246,10 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
         // Remove Delivery Addresse via AJAX (Page refresh and fill in the <input> fields with the authenticated/logged-in user Delivery Addresses details from the `delivery_addresses` database table when clicking on the Remove button) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
         Route::post('remove-delivery-address', 'AddressController@removeDeliveryAddress');
 
-        // Rendering Thanks page (after placing an order)
+        // Rendering Thanks page
         Route::get('thanks', 'ProductsController@thanks');
 
-        // Render User 'My Orders' page
-        Route::get('user/orders/{id?}', 'OrderController@orders'); // If the slug {id?} (Optional Parameters) is passed in, this means go to the front/orders/order_details.blade.php page, and if not, this means go to the front/orders/orders.blade.php page
+        Route::get('user/orders/{id?}', 'OrderController@orders');
 
 
 

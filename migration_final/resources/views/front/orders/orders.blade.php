@@ -1,12 +1,5 @@
-{{-- This page is rendered by orders() method inside Front/OrderController.php (depending on if the order id Optional Parameter (slug) is passed in or not) --}}
-
-
 @extends('front.layout.layout')
-
-
-
 @section('content')
-    <!-- Page Introduction Wrapper -->
     <div class="page-style-a">
         <div class="container">
             <div class="page-intro">
@@ -23,15 +16,13 @@
             </div>
         </div>
     </div>
-    <!-- Page Introduction Wrapper /- -->
-    <!-- Cart-Page -->
     <div class="page-cart u-s-p-t-80">
         <div class="container">
             <div class="row">
                 <table class="table table-striped table-borderless">
                     <tr class="table-danger">
                         <th>Order ID</th>
-                        <th>Ordered Products</th> {{-- We'll display products codes --}}
+                        <th>Ordered Products</th>
                         <th>Payment Method</th>
                         <th>Grand Total</th>
                         <th>Created on</th>
@@ -40,7 +31,7 @@
                                 <td>
                                     <a href="{{ url('user/orders/' . $order['id']) }}">{{ $order['id'] }}</a>
                                 </td>
-                                <td> {{-- We'll display products codes --}}
+                                <td>
                                     @foreach ($order['orders_products'] as $product)
                                         {{ $product['product_code'] }}
                                         <br>
@@ -56,5 +47,4 @@
             </div>
         </div>
     </div>
-    <!-- Cart-Page /- -->
 @endsection
