@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BotmanController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -276,4 +278,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
         Route::get('iyzipay/pay', 'IyzipayController@pay'); 
     });
 
+});
+Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotManController@handle');
+Route::get('/chatbot',function(){
+    return view('chatbot');
 });

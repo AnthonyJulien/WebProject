@@ -2,21 +2,21 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>New Order Notification</title>
     </head>
     <body>
-        <table style="width: 700px">
+        <table style="width: 700px;">
             <tr><td>&nbsp;</td></tr>
-            <tr><td><img src="{{ asset('front/images/main-logo/main-logo.png') }}"></td></tr>
+            <tr><td><img src="{{ asset('front/images/main-logo/main-logo.png') }}" alt="Company Logo"></td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>Hello {{ $name }}</td></tr>
+            <tr><td>Hello Vendor,</td></tr>
             <tr><td>&nbsp;<br></td></tr>
-            <tr><td>Thank you for shopping with us. Your order details are as below:-</td></tr>
+            <tr><td>You have received a new order. Please find the details below:</td></tr>
             <tr><td>&nbsp;</td></tr>
             <tr><td>Order no. {{ $order_id }}</td></tr>
             <tr><td>&nbsp;</td></tr>
             <tr><td>
-                <table style="width: 95%" cellpadding="5" cellspacing="5" bgcolor="#f7f4f4">
+                <table style="width: 95%;" cellpadding="5" cellspacing="5" bgcolor="#f7f4f4">
                     <tr bgcolor="#cccccc">
                         <td>Product Name</td>
                         <td>Product Code</td>
@@ -35,30 +35,12 @@
                             <td>{{ $order['product_price'] }}</td>
                         </tr>
                     @endforeach
-                        <tr>
-                        <tr>
-                            <td colspan="5" align="right">Coupon Discount</td>
-                            <td>
-                                INR
-                                @if ($orderDetails['coupon_amount'] > 0)
-                                    {{ $orderDetails['coupon_amount'] }}
-                                @else
-                                    0
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" align="right">Grand Total</td>
-                            <td>INR {{ $orderDetails['grand_total'] }}</td>
-                        </tr>
                 </table>    
             </td></tr>
             <tr><td>&nbsp;</td></tr>
             <tr><td>
+                <strong>Customer Delivery Address:</strong>
                 <table>
-                    <tr>
-                        <td><strong>Delivery Address:</strong></td>
-                    </tr>
                     <tr>
                         <td>{{ $orderDetails['name'] }}</td>
                     </tr>
@@ -83,12 +65,9 @@
                 </table>    
             </td></tr>
             <tr><td>&nbsp;</td></tr>
-
-
+            <tr><td>Thank you for your collaboration with us. If you have any questions, contact us at <a href="mailto:laravel@project.com">laravel@project.com</a>.</td></tr>
             <tr><td>&nbsp;</td></tr>
-            <tr><td>For any queries, you can contact us at <a href="mailto:laravel@project.com">laravel@project.com</a></td></tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr><td>Regards,<br>Team Multi-vendor E-commerce Application</td></tr>
+            <tr><td>Best Regards,<br>Team Multi-vendor E-commerce Application</td></tr>
             <tr><td>&nbsp;</td></tr>
         </table>
     </body>
