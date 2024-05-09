@@ -11,14 +11,7 @@
 
                             <h4 class="card-title">Images</h4> {{-- meaning Product images --}}
                         </div>
-                        <div class="col-12 col-xl-4">
-                            <div class="justify-content-end d-flex">
-                                <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
-                                    <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

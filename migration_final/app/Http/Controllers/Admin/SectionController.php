@@ -17,13 +17,13 @@ class SectionController extends Controller
 
         
         $sections = Section::get()->toArray(); 
-        
+        // dd($sections);
 
         return view('admin.sections.sections')->with(compact('sections'));
     }
 
-    public function updateSectionStatus(Request $request) {     
-        if ($request->ajax()) {
+    public function updateSectionStatus(Request $request) {    
+        if ($request->ajax()) { 
             $data = $request->all(); 
             
 
@@ -35,7 +35,7 @@ class SectionController extends Controller
 
 
             Section::where('id', $data['section_id'])->update(['status' => $status]); 
-           
+            
 
             return response()->json([ 
                 'status'     => $status,
@@ -53,11 +53,11 @@ class SectionController extends Controller
     }
 
     public function addEditSection(Request $request, $id = null) { 
-       
+        
         Session::put('page', 'sections');
 
 
-        if ($id == '') {
+        if ($id == '') { 
             $title = 'Add Section';
             $section = new Section();
             
@@ -73,7 +73,7 @@ class SectionController extends Controller
             $data = $request->all();
             
 
-           
+            
             $rules = [
                 'section_name' => 'required|regex:/^[\pL\s\-]+$/u', 
             ];
