@@ -1,8 +1,18 @@
 <?php
 // Getting the 'enabled' sections ONLY and their child categories (using the 'categories' relationship method) which, in turn, include their 'subcategories`
 $sections = \App\Models\Section::sections();
+use Illuminate\Support\Facades\Session;
+if (Session::has('currency')){
+}else{
+Session::put('currency', 'USD');
+ConvertPriceLocal();
+}
+
 // dd($sections);
+// putting the session currency in a variable
+$var_selected_currency = Session::get('currency');
 ?>
+
 
 
 

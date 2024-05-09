@@ -1,6 +1,13 @@
 {{-- This page is rendered by index() method in Front/IndexController.php --}}
 @extends('front.layout.layout')
-
+<?php
+use Illuminate\Support\Facades\Session;
+if (Session::has('currency')){
+}else{
+Session::put('currency', 'USD');
+ConvertPriceLocal();
+}
+?>
 
 @section('content')
     <!-- Main-Slider -->
