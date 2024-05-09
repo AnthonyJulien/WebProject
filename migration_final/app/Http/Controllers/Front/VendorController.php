@@ -85,16 +85,13 @@ class VendorController extends Controller
                 'email' => $data['email'],
                 'name'  => $data['name'],
                 'code'  => base64_encode($data['email']) 
-                 // We base64 code the vendor $email and send it as a Route Parameter from vendor_confirmation.blade.php to the 'vendor/confirm/{code}' route in web.php, then it gets base64 decoded again in confirmVendor() method in Front/VendorController.php  
-                   // we then use the opposite: base64_decode() in the confirmVendor() method (encode X decode)
+            
             ];
 
-            //Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail 
             \Illuminate\Support\Facades\Mail::send('emails.vendor_confirmation', $messageData, function ($message) use ($email) {
                 $message->to($email)->subject('Confirm your Vendor Account');
 
-                // We pass in all the variables 
-                  // https://www.php.net/manual/en/functions.anonymous.php
+    
             });
 
 

@@ -192,7 +192,7 @@ class UserController extends Controller
             $data = $request->all(); 
 
             $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-                // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Validation Rules
+                
                 'name'    => 'required|string|max:100',
                 'city'    => 'required|string|max:100',
                 'state'   => 'required|string|max:100',
