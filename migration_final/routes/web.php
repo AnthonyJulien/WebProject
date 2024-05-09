@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BotmanController;
+use App\Http\Controllers\GoogleController;
 
 
 /*
@@ -189,6 +190,8 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
 
     // Render User Login/Register page (front/users/login_register.blade.php)
     Route::get('user/login-register', ['as' => 'login', 'uses' => 'UserController@loginRegister']); // 'as' => 'login'    is Giving this route a name 'login' route in order for the 'auth' middleware ('auth' middleware is the Authenticate.php) to redirect to the right page
+    Route::get('auth/google', [GoogleController::class, 'signInwithGoogle']);
+    Route::get('callback/google', [GoogleController::class, 'callbackToGoogle']);
 
     // User Registration (in front/users/login_register.blade.php) <form> submission using an AJAX request. Check front/js/custom.js
     Route::post('user/register', 'UserController@userRegister');

@@ -120,7 +120,7 @@ class UserController extends Controller
 
  
                
-                    $redirectTo = url('cart');
+                    $redirectTo = url('/');
 
                     
                     return response()->json([ 
@@ -150,7 +150,7 @@ class UserController extends Controller
         Session::flush(); 
 
 
-        return redirect('/');
+        return redirect('/user/login-register');
     }
 
 
@@ -189,48 +189,48 @@ class UserController extends Controller
 
  
     
-    public function userUpdatePassword(Request $request) {
-        if ($request->ajax()) { 
-            $data = $request->all();    
-            $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+    // public function userUpdatePassword(Request $request) {
+    //     if ($request->ajax()) { 
+    //         $data = $request->all();    
+    //         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
                 
-                'current_password'  => 'required',
-                'new_password'     => 'required|min:6',
-                'confirm_password' => 'required|min:6|same:new_password' 
+    //             'current_password'  => 'required',
+    //             'new_password'     => 'required|min:6',
+    //             'confirm_password' => 'required|min:6|same:new_password' 
 
-            ]  );
+    //         ]  );
 
 
-            if ($validator->passes()) {
-                $current_password = $data['current_password']; 
-                $checkPassword    = User::where('id', Auth::user()->id)->first();
+    //         if ($validator->passes()) {
+    //             $current_password = $data['current_password']; 
+    //             $checkPassword    = User::where('id', Auth::user()->id)->first();
 
-                if (Hash::check($current_password, $checkPassword->password)) { 
-                    $user = User::find(Auth::user()->id);
-                    $user->password = bcrypt($data['new_password']); 
-                    $user->save();
+    //             if (Hash::check($current_password, $checkPassword->password)) { 
+    //                 $user = User::find(Auth::user()->id);
+    //                 $user->password = bcrypt($data['new_password']); 
+    //                 $user->save();
 
                    
-                    return response()->json([ 
-                        'type'    => 'success',
-                        'message' => 'Account password successfully updated!'
-                    ]);
+    //                 return response()->json([ 
+    //                     'type'    => 'success',
+    //                     'message' => 'Account password successfully updated!'
+    //                 ]);
 
-                } else { 
-                    return response()->json([ 
-                        'type'    => 'incorrect',
-                        'message' => 'Your current password is incorrect!'
-                    ]);
-                }
+    //             } else { 
+    //                 return response()->json([ 
+    //                     'type'    => 'incorrect',
+    //                     'message' => 'Your current password is incorrect!'
+    //                 ]);
+    //             }
 
-            } else { 
-                return response()->json([
-                    'type'   => 'error',
-                    'errors' => $validator->messages() 
-                ]);
-            }
+    //         } else { 
+    //             return response()->json([
+    //                 'type'   => 'error',
+    //                 'errors' => $validator->messages() 
+    //             ]);
+    //         }
 
-        }
-    }
+    //     }
+    // }
 
 }
