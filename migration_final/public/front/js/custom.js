@@ -739,4 +739,30 @@ $(document).ready(function() {
 
     });
 
+
+      //Getting the Currency option  front/layout/header.blade.php, check front/js/custom.js    
+
+      document.getElementById("select-currency").addEventListener("change", function() {
+        var selectedcurrency = this.value;
+        // Do something with the selected option
+        console.log("You selected: " + selectedcurrency);
+        //alert(selectedcurrency);
+        
+
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, // X-CSRF-TOKEN: https://laravel.com/docs/9.x/csrf#csrf-x-csrf-token    
+            url    : '/update_currency', // check this route in web.php
+            type   : 'post',
+            data   : {currency: selectedcurrency}, // Sending name/value pairs to server with the AJAX request (AJAX call)
+            success: function(resp) { // if the AJAX request / AJAX call is successful
+                //alert(resp);
+                location.reload(); // We need to refresh the page after updating the currency
+            },
+            error  : function() { // if the AJAX request is unsuccessful
+                alert('Error');
+            }
+        });
+ 
+    });
+
 });
