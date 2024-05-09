@@ -63,7 +63,7 @@
                                                 <td>{{ $product['section']['name'] }}</td> {{-- Through the relationship --}}
                                                 <td>
                                                     @if ($product['admin_type'] == 'vendor')
-                                                        <a target="_blank" href="{{ url('admin/view-vendor-details/' . $product['admin_id']) }}">{{ ucfirst($product['admin_type']) }}</a>
+                                                         {{ ucfirst($product['admin_type']) }}
                                                     @else
                                                         {{ ucfirst($product['admin_type']) }}
                                                     @endif
