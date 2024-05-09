@@ -15,7 +15,6 @@ $var_selected_currency = Session::get('currency');
 
 
 
-
 <!-- Header -->
 <header>
     <!-- Top-Header -->
@@ -24,14 +23,14 @@ $var_selected_currency = Session::get('currency');
             <nav>
                 <ul class="primary-nav g-nav">
                     <li>
-                        <a href="tel:+201255845857">
+                        <a href="tel:+9613333333">
                         <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                        Telephone: +201255845857</a>
+                        Telephone: +9613333333</a>
                     </li>
                     <li>
-                        <a href="mailto:info@multi-vendore-commerce.com">
+                        <a href="mailto:admin@admin.com">
                         <i class="fas fa-envelope u-c-brand u-s-m-r-9"></i>
-                        E-mail: info@multi-vendore-commerce.com
+                        E-mail: admin@admin.com 
                         </a>
                     </li>
                 </ul>
@@ -109,18 +108,53 @@ $var_selected_currency = Session::get('currency');
                         </ul>
                     </li>
                     <li>
-                        <a>EGP
+                    <div class="col-8 col-sm-4">
+                     <select class="form-select form-select-sm" id="select-currency">
+                     <option value="USD" @if($var_selected_currency == 'USD') selected @endif>USD</option>   
+                     <option value="LBP" @if($var_selected_currency == 'LBP') selected @endif>LBP</option>
+                     <option value="EUR" @if($var_selected_currency == 'EUR') selected @endif>EUR</option>
+                     <option value="GBP" @if($var_selected_currency == 'GBP') selected @endif>GBP</option>
+                     <option value="KWD" @if($var_selected_currency == 'KWD') selected @endif>KWD</option>
+                    <!--
+                     <option>USD</option>
+                    <option>LBP</option>
+                    <option>EUR</option>
+                    <option>GBP</option>
+                    <option>KWD</option>
+                    -->                    
+                    </select></div>
+
+                <!-- 
+                <div class="alert alert-success">
+                    <p>{{ Session::get('currency') }}</p>
+                </div>
+                -->
+
+
+                         <!--       
+                        <a>USD
                         <i class="fas fa-chevron-down u-s-m-l-9"></i>
                         </a>
                         <ul class="g-dropdown" style="width:90px">
                             <li>
-                                <a href="#" class="u-c-brand">LE EGP</a>
+                                <a href="#" class="u-c-brand">USD</a>
                             </li>
                             <li>
-                                <a href="#">($) USD</a>
+                                <a href="#">LBP</a>
+                            </li>
+                            <li>
+                                <a href="#">EUR</a>
+                            </li>
+                            <li>
+                                <a href="#">GBP</a>
+                            </li>
+                            <li>
+                                <a href="#">KWD</a>
                             </li>
                         </ul>
                     </li>
+                    -->
+                    <!--
                     <li>
                         <a>ENG
                         <i class="fas fa-chevron-down u-s-m-l-9"></i>
@@ -133,6 +167,9 @@ $var_selected_currency = Session::get('currency');
                                 <a href="#">ARB</a>
                             </li>
                         </ul>
+                    </li>
+                            -->
+                    
                 </ul>
             </nav>
         </div>

@@ -214,15 +214,15 @@
 
                                 @if ($getDiscountPrice > 0) {{-- if there's a discount on the product price --}}
                                     <div class="price">
-                                        <h4>USD{{ $getDiscountPrice }}</h4>
+                                        <h4>{{ Session::get('currency') }}. {{ ConvertPrice(Session::get('currency'), $getDiscountPrice )}} </h4>
                                     </div>
                                     <div class="original-price">
                                         <span>Original Price:</span>
-                                        <span>USD{{ $productDetails['product_price'] }}</span> {{-- the product original price (without discount) --}}
+                                        <span>{{ Session::get('currency') }}{{ $productDetails['product_price'] }}</span> {{-- the product original price (without discount) --}}
                                     </div>
                                 @else {{-- if there's no discount on the product price --}}
                                     <div class="price">
-                                        <h4>USD{{ $productDetails['product_price'] }}</h4> {{-- the product original price (without discount) --}}
+                                        <h4>{{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $product['product_price']) }}</h4> {{-- the product original price (without discount) --}}
                                     </div>
                                 @endif
 
@@ -341,8 +341,6 @@
                                     <button class="button button-outline-secondary" type="submit">Add to cart</button>
                                     <button class="button button-outline-secondary far fa-heart u-s-m-l-6"></button>
                                     <button class="button button-outline-secondary far fa-envelope u-s-m-l-6"></button>
-                                    <a href="{{ url('/chatify') }}" class="checkout" style="border-color:black">Chat Now With Vendor</a>
-                                    
                                 </div>
 
 
@@ -697,16 +695,16 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        USD{{ $getDiscountPrice }} 
+                                                    {{ Session::get('currency') }}. {{ ConvertPrice(Session::get('currency'), $getDiscountPrice )}} 
                                                     </div>
                                                     <div class="item-old-price">
-                                                        USD{{ $product['product_price'] }}
+                                                    {{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $product['product_price']) }}
                                                     </div>
                                                 </div>
                                             @else {{-- if there's no discount on the price, show the original price --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        USD{{ $product['product_price'] }}
+                                                    {{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $product['product_price']) }}
                                                     </div>
                                                 </div>
                                             @endif
@@ -801,16 +799,16 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        USD{{ $getDiscountPrice }} 
+                                                    {{ Session::get('currency') }}. {{ ConvertPrice(Session::get('currency'), $getDiscountPrice )}} 
                                                     </div>
                                                     <div class="item-old-price">
-                                                        USD{{ $product['product_price'] }}
+                                                    {{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $product['product_price']) }}
                                                     </div>
                                                 </div>
                                             @else {{-- if there's no discount on the price, show the original price --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        USD{{ $product['product_price'] }}
+                                                    {{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $product['product_price']) }}
                                                     </div>
                                                 </div>
                                             @endif
