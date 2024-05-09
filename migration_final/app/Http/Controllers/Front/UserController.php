@@ -186,6 +186,52 @@ class UserController extends Controller
         }
     }
 
+     
+    public function userAccount(Request $request) {
+        if ($request->ajax()) { 
+            $data = $request->all(); 
+
+            $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+                // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Validation Rules
+                'name'    => 'required|string|max:100',
+                'city'    => 'required|string|max:100',
+                'state'   => 'required|string|max:100',
+                'address' => 'required|string|max:100',
+                'country' => 'required|string|max:100',
+                'mobile'  => 'required|numeric|digits:8',
+                'pincode' => 'required|digits:6',
+
+            ]  );
+            if ($validator->passes()) { 
+                User::where('id', Auth::user()->id)->update([ 
+                    'name'    => $data['name'],    // $data['name']       comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
+                    'mobile'  => $data['mobile'],  
+                    'city'    => $data['city'],    
+                    'state'   => $data['state'],   
+                    'country' => $data['country'], 
+                    'pincode' => $data['pincode'], 
+                    'address' => $data['address'], 
+                ]);
+
+                return response()->json([ 
+                    'type'    => 'success',
+                    'message' => 'Your contact/billing details successfully updated!'
+                ]);
+
+            } else { 
+                return response()->json([
+                    'type'   => 'error',
+                    'errors' => $validator->messages()   
+                ]);
+            }
+
+        } else { 
+            $countries = \App\Models\Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 
+            return view('front.users.user_account')->with(compact('countries'));
+        }
+    }
+
+
 
  
     
