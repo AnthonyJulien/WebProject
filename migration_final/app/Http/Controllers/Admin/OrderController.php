@@ -86,11 +86,6 @@ class OrderController extends Controller
 
             Order::where('id', $data['order_id'])->update(['order_status' => $data['order_status']]);
 
-            $log = new OrdersLog;
-            $log->order_id     = $data['order_id'];
-            $log->order_status = $data['order_status'];
-            $log->save();
-
             return redirect()->back()->with('success_message', $message);
         
     }
@@ -102,14 +97,7 @@ class OrderController extends Controller
 
             OrdersProduct::where('id', $data['order_item_id'])->update(['item_status' => $data['order_item_status']]);
 
-
-            $log = new OrdersLog;
-            $log->order_id      = $getOrderId['order_id'];
-            $log->order_item_id = $data['order_item_id'];
-            $log->order_status  = $data['order_item_status'];
-            $log->save();
-
-            return redirect()->back()->with('success_message', $message);
+            return redirect()->back()->with('success_message');
         }
     }
 
