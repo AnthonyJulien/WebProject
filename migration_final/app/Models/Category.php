@@ -13,25 +13,26 @@ class Category extends Model
 
     
     public function section() {
-        return $this->belongsTo('App\Models\Section', 'section_id')->select('id', 'name');
+        return $this->belongsTo('App\Models\Section', 'section_id')->select('id', 'name'); 
     }
 
 
 
-    
+
     public function parentCategory() { 
         return $this->belongsTo('App\Models\Category', 'parent_id')->select('id', 'category_name'); 
     }
 
-    public function subCategories() {
+    public function subCategories() { 
+        return $this->hasMany('App\Models\Category', 'parent_id')->where('status', 1);
     }
 
 
 
-    
+
     public static function categoryDetails($url) { 
         $categoryDetails = Category::select('id', 'parent_id', 'category_name', 'url', 'description', 'meta_title', 'meta_description', 'meta_keywords')->with([ 
-            'subCategories' => function($query) {
+            'subCategories' => function($query) { 
                 $query->select('id', 'parent_id', 'category_name', 'url', 'description', 'meta_title', 'meta_description', 'meta_keywords'); 
             }
         ])->where('url', $url)->first()->toArray(); 
