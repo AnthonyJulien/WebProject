@@ -629,7 +629,6 @@ if ($getProductDetails['vendor_id'] > 0) {
         });
     }
 } elseif ($data['payment_gateway'] == 'Paypal') {
-    // redirect the user to the PayPalController.php (after saving the order details in `orders` and `orders_products` tables)
     return redirect('/paypal');
 }
         return redirect('thanks');
