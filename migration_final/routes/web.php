@@ -281,6 +281,9 @@ Route::
 
                 // Make an iyzipay payment (redirect the user to iyzico payment gateway with the order details)
                 Route::get('iyzipay/pay', 'IyzipayController@pay');
+
+                Route::resource('events', EventController::class);
+
             });
 
         });
