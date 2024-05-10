@@ -69,16 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                         <!--       
-                        <div class="col-md-6 mb-4 stretch-card transparent">
-                            <div class="card card-dark-blue">
-                                <div class="card-body">
-                                    <p class="mb-4">Total Coupons</p>
-                                    <p class="fs-30 mb-2">{{ $couponsCount }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        -->
+                         
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">

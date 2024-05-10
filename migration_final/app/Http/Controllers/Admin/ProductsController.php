@@ -209,7 +209,7 @@ class ProductsController extends Controller
 
             if ($id == '') { 
                 
-                
+                $adminType = Auth::guard('admin')->user()->type;
                 $vendor_id = Auth::guard('admin')->user()->vendor_id; 
                 $admin_id  = Auth::guard('admin')->user()->id; 
                 $product->admin_type = $adminType;
@@ -345,7 +345,7 @@ class ProductsController extends Controller
     public function addAttributes(Request $request, $id) {     
         Session::put('page', 'products');
 
-        $product = Product::select('id', 'product_name', 'product_code', 'product_color', 'product_price', 'product_image')->with('attributes')->find($id); // with('attributes') is the relationship method name in the Product.php model
+        $product = Product::select('id', 'product_name', 'product_code', 'product_color', 'product_price', 'product_image')->with('attributes')->find($id); 
 
         if ($request->isMethod('post')) { 
             $data = $request->all();
