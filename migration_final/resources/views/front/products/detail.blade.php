@@ -222,7 +222,7 @@
                                     </div>
                                 @else {{-- if there's no discount on the product price --}}
                                     <div class="price">
-                                        <h4>{{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $product['product_price']) }}</h4> {{-- the product original price (without discount) --}}
+                                        <h4>{{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $productDetails['product_price']) }}</h4> {{-- the product original price (without discount) --}}
                                     </div>
                                 @endif
 
