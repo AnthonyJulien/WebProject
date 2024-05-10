@@ -209,7 +209,7 @@ class ProductsController extends Controller
 
             if ($id == '') { 
                 
-                
+                $adminType = Auth::guard('admin')->user()->type;
                 $vendor_id = Auth::guard('admin')->user()->vendor_id; 
                 $admin_id  = Auth::guard('admin')->user()->id; 
                 $product->admin_type = $adminType;
