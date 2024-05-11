@@ -92,7 +92,7 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <h6>EGP{{ $getDiscountAttributePrice['final_price'] * $item['quantity'] }}</h6>
+                                                        <h6>{{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $getDiscountAttributePrice['final_price'] * $item['quantity']) }}</h6>
                                                     </td>
                                                 </tr>
                                                 @php
@@ -104,7 +104,7 @@
                                                     <h3>Subtotal</h3>
                                                 </td>
                                                 <td>
-                                                    <h3>EGP{{ $total_price }}</h3>
+                                                    <h3>{{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $total_price) }}</h3>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -120,9 +120,9 @@
                                                 <td>
                                                     <h6>
                                                         @if (Session::has('couponAmount'))
-                                                            EGP{{ Session::get('couponAmount') }}
+                                                        {{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), Session::get('couponAmount')) }}
                                                         @else
-                                                            EGP0
+                                                            0
                                                         @endif
                                                     </h6>
                                                 </td>
@@ -132,7 +132,7 @@
                                                     <h3>Grand Total</h3>
                                                 </td>
                                                 <td>
-                                                    <h3><strong>EGP{{ $total_price - Session::get('couponAmount') }}</strong></h3>
+                                                    <h3><strong>{{ Session::get('currency') }} . {{ ConvertPrice(Session::get('currency'), $total_price - Session::get('couponAmount')) }}</strong></h3>
                                                 </td>
                                             </tr>
                                         </tbody>
