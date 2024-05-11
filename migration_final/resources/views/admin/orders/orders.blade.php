@@ -58,11 +58,6 @@
                                                             <i style="font-size: 25px" class="mdi mdi-printer"></i>
                                                         </a>
                                                         &nbsp;&nbsp;
-
-                                                        {{-- View PDF invoice --}} 
-                                                        <a title="Print PDF Invoice" href="{{ url('admin/orders/invoice/pdf/' . $order['id']) }}" target="_blank">
-                                                            <i style="font-size: 25px" class="mdi mdi-file-pdf"></i>
-                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endif

@@ -20,143 +20,99 @@ require __DIR__ . '/auth.php';
 
 
 
-// Note: OUR WEBSITE WILL HAVE TWO MAJOR SECTIONS: ADMIN ROUTES (for the Admin Panel) & FRONT ROUTES (for the Frontend section routes)!:
 
-// First: Admin Panel routes:
-// The website 'ADMIN' Section: Route Group for routes starting with the 'admin' word (Admin Route Group)    // NOTE: ALL THE ROUTES INSIDE THIS PREFIX STATRT WITH 'admin/', SO THOSE ROUTES INSIDE THE PREFIX, YOU DON'T WRITE '/admin' WHEN YOU DEFINE THEM, IT'LL BE DEFINED AUTOMATICALLY!!
-Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
-    Route::match (['get', 'post'], 'login', 'AdminController@login'); // match() method is used to use more than one HTTP request method for the same route, so GET for rendering the login.php page, and POST for the login.php page <form> submission (e.g. GET and POST)    // Matches the '/admin/dashboard' URL (i.e. http://127.0.0.1:8000/admin/dashboard)
+Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function() {
+    Route::match(['get', 'post'], 'login', 'AdminController@login'); 
 
 
-    // This a Route Group for routes that ALL start with 'admin/-something' and utilizes the 'admin' Authentication Guard    // Note: You must remove the '/admin'/ part from the routes that are written inside this Route Group (e.g.    Route::get('logout');    , NOT    Route::get('admin/logout');    )
-    Route::group(['middleware' => ['admin']], function () { // using our 'admin' guard (which we created in auth.php)
-        Route::get('dashboard', 'AdminController@dashboard'); // Admin login
-        Route::get('logout', 'AdminController@logout'); // Admin logout
-        Route::match (['get', 'post'], 'update-admin-password', 'AdminController@updateAdminPassword'); // GET request to view the update password <form>, and a POST request to submit the update password <form>
-        Route::post('check-admin-password', 'AdminController@checkAdminPassword'); // Check Admin Password // This route is called from the AJAX call in admin/js/custom.js page
-        Route::match (['get', 'post'], 'update-admin-details', 'AdminController@updateAdminDetails'); // Update Admin Details in update_admin_details.blade.php page    // 'GET' method to show the update_admin_details.blade.php page, and 'POST' method for the <form> submission in the same page
-        Route::match (['get', 'post'], 'update-vendor-details/{slug}', 'AdminController@updateVendorDetails'); // Update Vendor Details    // In the slug we can pass: 'personal' which means update vendor personal details, or 'business' which means update vendor business details, or 'bank' which means update vendor bank details    // We'll create one view (not 3) for the 3 pages, but parts inside it will change depending on the $slug value    // GET method to show the update admin details page, POST method for <form> submission
+    Route::group(['middleware' => ['admin']], function() {
+        Route::get('dashboard', 'AdminController@dashboard');
+        Route::get('logout', 'AdminController@logout');
+        Route::match(['get', 'post'], 'update-admin-password', 'AdminController@updateAdminPassword');
+        Route::post('check-admin-password', 'AdminController@checkAdminPassword'); 
+        Route::match(['get', 'post'], 'update-admin-details', 'AdminController@updateAdminDetails');
+        Route::match(['get', 'post'], 'update-vendor-details/{slug}', 'AdminController@updateVendorDetails'); 
 
-        // Update the vendor's commission percentage (by the Admin) in `vendors` table (for every vendor on their own) in the Admin Panel in admin/admins/view_vendor_details.blade.php (Commissions module: Every vendor must pay a certain commission (that may vary from a vendor to another) for the website owner (admin) on every item sold, and it's defined by the website owner (admin))
         Route::post('update-vendor-commission', 'AdminController@updateVendorCommission');
 
-        Route::get('admins/{type?}', 'AdminController@admins'); // In case the authenticated user (logged-in user) is superadmin, admin, subadmin, vendor these are the three Admin Management URLs depending on the slug. The slug is the `type` column in `admins` table which can only be: superadmin, admin, subadmin, or vendor    // Used an Optional Route Parameters (or Optional Route Parameters) using a '?' question mark sign, for in case that there's no any {type} passed, the page will show ALL superadmins, admins, subadmins and vendors at the same page
-        Route::get('view-vendor-details/{id}', 'AdminController@viewVendorDetails'); // View further 'vendor' details inside Admin Management table (if the authenticated user is superadmin, admin or subadmin)
-        Route::post('update-admin-status', 'AdminController@updateAdminStatus'); // Update Admin Status using AJAX in admins.blade.php
+        Route::get('admins/{type?}', 'AdminController@admins'); 
+        Route::get('view-vendor-details/{id}', 'AdminController@viewVendorDetails'); 
+        Route::post('update-admin-status', 'AdminController@updateAdminStatus');
+    
 
-
-        // Sections (Sections, Categories, Subcategories, Products, Attributes)
         Route::get('sections', 'SectionController@sections');
-        Route::post('update-section-status', 'SectionController@updateSectionStatus'); // Update Sections Status using AJAX in sections.blade.php
-        Route::get('delete-section/{id}', 'SectionController@deleteSection'); // Delete a section in sections.blade.php
-        Route::match (['get', 'post'], 'add-edit-section/{id?}', 'SectionController@addEditSection'); // the slug {id?} is an Optional Parameter, so if it's passed, this means Edit/Update the section, and if not passed, this means Add a Section
+        Route::post('update-section-status', 'SectionController@updateSectionStatus'); 
+        Route::get('delete-section/{id}', 'SectionController@deleteSection');
+        Route::match(['get', 'post'], 'add-edit-section/{id?}', 'SectionController@addEditSection'); 
 
-        // Categories
-        Route::get('categories', 'CategoryController@categories'); // Categories in Catalogue Management in Admin Panel
-        Route::post('update-category-status', 'CategoryController@updateCategoryStatus'); // Update Categories Status using AJAX in categories.blade.php
-        Route::match (['get', 'post'], 'add-edit-category/{id?}', 'CategoryController@addEditCategory'); // the slug {id?} is an Optional Parameter, so if it's passed, this means Edit/Update the Category, and if not passed, this means Add a Category
-        Route::get('append-categories-level', 'CategoryController@appendCategoryLevel'); // Show Categories <select> <option> depending on the chosen Section (show the relevant categories of the chosen section) using AJAX in admin/js/custom.js in append_categories_level.blade.php page
-        Route::get('delete-category/{id}', 'CategoryController@deleteCategory'); // Delete a category in categories.blade.php
-        Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage'); // Delete a category image in add_edit_category.blade.php from BOTH SERVER (FILESYSTEM) & DATABASE
+        Route::get('categories', 'CategoryController@categories'); 
+        Route::post('update-category-status', 'CategoryController@updateCategoryStatus'); 
+        Route::match(['get', 'post'], 'add-edit-category/{id?}', 'CategoryController@addEditCategory');
+        Route::get('append-categories-level', 'CategoryController@appendCategoryLevel');
+        Route::get('delete-category/{id}', 'CategoryController@deleteCategory');
+        Route::get('delete-category-image/{id}', 'CategoryController@deleteCategoryImage');
 
-        // Brands
         Route::get('brands', 'BrandController@brands');
-        Route::post('update-brand-status', 'BrandController@updateBrandStatus'); // Update Brands Status using AJAX in brands.blade.php
-        Route::get('delete-brand/{id}', 'BrandController@deleteBrand'); // Delete a brand in brands.blade.php
-        Route::match (['get', 'post'], 'add-edit-brand/{id?}', 'BrandController@addEditBrand'); // the slug {id?} is an Optional Parameter, so if it's passed, this means Edit/Update the brand, and if not passed, this means Add a Brand
+        Route::post('update-brand-status', 'BrandController@updateBrandStatus');
+        Route::get('delete-brand/{id}', 'BrandController@deleteBrand'); 
+        Route::match(['get', 'post'], 'add-edit-brand/{id?}', 'BrandController@addEditBrand');
 
-        // Products
-        Route::get('products', 'ProductsController@products'); // render products.blade.php in the Admin Panel
-        Route::post('update-product-status', 'ProductsController@updateProductStatus'); // Update Products Status using AJAX in products.blade.php
-        Route::get('delete-product/{id}', 'ProductsController@deleteProduct'); // Delete a product in products.blade.php
-        Route::match (['get', 'post'], 'add-edit-product/{id?}', 'ProductsController@addEditProduct'); // the slug (Route Parameter) {id?} is an Optional Parameter, so if it's passed, this means 'Edit/Update the Product', and if not passed, this means' Add a Product'    // GET request to render the add_edit_product.blade.php view, and POST request to submit the <form> in that view
-        Route::get('delete-product-image/{id}', 'ProductsController@deleteProductImage'); // Delete a product images (in the three folders: small, medium and large) in add_edit_product.blade.php page from BOTH SERVER (FILESYSTEM) & DATABASE
-        Route::get('delete-product-video/{id}', 'ProductsController@deleteProductVideo'); // Delete a product video in add_edit_product.blade.php page from BOTH SERVER (FILESYSTEM) & DATABASE
+        Route::get('products', 'ProductsController@products');
+        Route::post('update-product-status', 'ProductsController@updateProductStatus');
+        Route::get('delete-product/{id}', 'ProductsController@deleteProduct'); 
+        Route::match(['get', 'post'], 'add-edit-product/{id?}', 'ProductsController@addEditProduct'); 
+        Route::get('delete-product-image/{id}', 'ProductsController@deleteProductImage');
+        Route::get('delete-product-video/{id}', 'ProductsController@deleteProductVideo');
 
-        // Attributes
-        Route::match (['get', 'post'], 'add-edit-attributes/{id}', 'ProductsController@addAttributes'); // GET request to render the add_edit_attributes.blade.php view, and POST request to submit the <form> in that view
-        Route::post('update-attribute-status', 'ProductsController@updateAttributeStatus'); // Update Attributes Status using AJAX in add_edit_attributes.blade.php
-        Route::get('delete-attribute/{id}', 'ProductsController@deleteAttribute'); // Delete an attribute in add_edit_attributes.blade.php
-        Route::match (['get', 'post'], 'edit-attributes/{id}', 'ProductsController@editAttributes'); // in add_edit_attributes.blade.php
+        Route::match(['get', 'post'], 'add-edit-attributes/{id}', 'ProductsController@addAttributes'); 
+        Route::post('update-attribute-status', 'ProductsController@updateAttributeStatus');
+        Route::get('delete-attribute/{id}', 'ProductsController@deleteAttribute');
+        Route::match(['get', 'post'], 'edit-attributes/{id}', 'ProductsController@editAttributes'); 
 
-        // Images
-        Route::match (['get', 'post'], 'add-images/{id}', 'ProductsController@addImages'); // GET request to render the add_edit_attributes.blade.php view, and POST request to submit the <form> in that view
-        Route::post('update-image-status', 'ProductsController@updateImageStatus'); // Update Images Status using AJAX in add_images.blade.php
-        Route::get('delete-image/{id}', 'ProductsController@deleteImage'); // Delete an image in add_images.blade.php
+        Route::match(['get', 'post'], 'add-images/{id}', 'ProductsController@addImages'); 
+        Route::post('update-image-status', 'ProductsController@updateImageStatus'); 
+        Route::get('delete-image/{id}', 'ProductsController@deleteImage');
 
-        // Banners
         Route::get('banners', 'BannersController@banners');
-        Route::post('update-banner-status', 'BannersController@updateBannerStatus'); // Update Categories Status using AJAX in banners.blade.php
-        Route::get('delete-banner/{id}', 'BannersController@deleteBanner'); // Delete a banner in banners.blade.php
-        Route::match (['get', 'post'], 'add-edit-banner/{id?}', 'BannersController@addEditBanner'); // the slug (Route Parameter) {id?} is an Optional Parameter, so if it's passed, this means 'Edit/Update the Banner', and if not passed, this means' Add a Banner'    // GET request to render the add_edit_banner.blade.php view, and POST request to submit the <form> in that view
+        Route::post('update-banner-status', 'BannersController@updateBannerStatus'); 
+        Route::get('delete-banner/{id}', 'BannersController@deleteBanner');
+        Route::match(['get', 'post'], 'add-edit-banner/{id?}', 'BannersController@addEditBanner'); 
 
-        // Filters
-        Route::get('filters', 'FilterController@filters'); // Render filters.blade.php page
-        Route::post('update-filter-status', 'FilterController@updateFilterStatus'); // Update Filter Status using AJAX in filters.blade.php
-        Route::post('update-filter-value-status', 'FilterController@updateFilterValueStatus'); // Update Filter Value Status using AJAX in filters_values.blade.php
-        Route::get('filters-values', 'FilterController@filtersValues'); // Render filters_values.blade.php page
-        Route::match (['get', 'post'], 'add-edit-filter/{id?}', 'FilterController@addEditFilter'); // the slug (Route Parameter) {id?} is an Optional Parameter, so if it's passed, this means 'Edit/Update the filter', and if not passed, this means' Add a filter'    // GET request to render the add_edit_filter.blade.php view, and POST request to submit the <form> in that view
-        Route::match (['get', 'post'], 'add-edit-filter-value/{id?}', 'FilterController@addEditFilterValue'); // the slug (Route Parameter) {id?} is an Optional Parameter, so if it's passed, this means 'Edit/Update the Filter Value', and if not passed, this means' Add a Filter Value'    // GET request to render the add_edit_filter_value.blade.php view, and POST request to submit the <form> in that view
-        Route::post('category-filters', 'FilterController@categoryFilters'); // Show the related filters depending on the selected category <select> in category_filters.blade.php (which in turn is included by add_edit_product.php) using AJAX. Check admin/js/custom.js
+        Route::get('filters', 'FilterController@filters'); 
+        Route::post('update-filter-status', 'FilterController@updateFilterStatus');
+        Route::post('update-filter-value-status', 'FilterController@updateFilterValueStatus');
+        Route::get('filters-values', 'FilterController@filtersValues');
+        Route::match(['get', 'post'], 'add-edit-filter/{id?}', 'FilterController@addEditFilter'); 
+        Route::match(['get', 'post'], 'add-edit-filter-value/{id?}', 'FilterController@addEditFilterValue'); 
+        Route::post('category-filters', 'FilterController@categoryFilters');
 
+        Route::get('users', 'UserController@users'); 
+        Route::post('update-user-status', 'UserController@updateUserStatus');
 
+        Route::post('reset-user-password', 'UserController@resetUserPassword');
 
-        // Users
-        Route::get('users', 'UserController@users'); // Render admin/users/users.blade.php page in the Admin Panel
-        Route::post('update-user-status', 'UserController@updateUserStatus'); // Update User Status (active/inactive) via AJAX in admin/users/users.blade.php, check admin/js/custom.js
-
-        //adding route to the user reset password
-        Route::post('reset-user-password', 'UserController@resetUserPassword');// Reset User password (active/inactive) via AJAX in admin/users/users.blade.php, check admin/js/custom.js
-
-        //adding route to the admin reset password
-        Route::post('reset-admin-password', 'AdminController@resetAdminPassword');// Reset Admin password  via AJAX in admin/admins/admins.blade.php, check admin/js/custom.js
-
-
-
-        // Orders
+        Route::post('reset-admin-password', 'AdminController@resetAdminPassword');
+                
         Route::get('orders', 'OrderController@orders');
-
-        Route::get('orders/{id}', 'OrderController@orderDetails');
-
+        Route::get('orders/{id}', 'OrderController@orderDetails'); 
         Route::post('update-order-status', 'OrderController@updateOrderStatus');
-
         Route::post('update-order-item-status', 'OrderController@updateOrderItemStatus');
+        Route::get('orders/invoice/{id}', 'OrderController@viewOrderInvoice'); 
 
-        Route::get('orders/invoice/{id}', 'OrderController@viewOrderInvoice');
-
-
-
-
-
-        // User Ratings & Reviews
-        // Render admin/ratings/ratings.blade.php page in the Admin Panel
         Route::get('ratings', 'RatingController@ratings');
-
-        // Update Rating Status (active/inactive) via AJAX in admin/ratings/ratings.blade.php, check admin/js/custom.js
         Route::post('update-rating-status', 'RatingController@updateRatingStatus');
-
-        // Delete a Rating via AJAX in admin/ratings/ratings.blade.php, check admin/js/custom.js
-        Route::get('delete-rating/{id}', 'RatingController@deleteRating');
+        Route::get('delete-rating/{id}', 'RatingController@deleteRating'); 
     });
 
 });
 
-// Second: FRONT section routes:
-Route::
-        namespace('App\Http\Controllers\Front')->group(function () {
-            Route::get('/', 'IndexController@index');
+Route::namespace('App\Http\Controllers\Front')->group(function() {
+    Route::get('/', 'IndexController@index');
 
-
-            // Dynamic Routes for the `url` column in the `categories` table using a foreach loop    // Listing/Categories Routes
-            // Important Note: When you run this Laravel project for the first time and if you're running  the "php artisan migrate" command for the first time, before that you must comment out the $catUrls variable and the following foreach loop in web.php file (routes file), because when we run that artisan command, by then the `categories` table has not been created yet, and this causes an error, so make sure to comment out this code in web.php file before running the "php artisan migrate" command for the first time.
-            if (!app()->runningInConsole()) {
-                $catUrls = \App\Models\Category::select('url')->where('status', 1)->get()->pluck('url')->toArray(); // Routes like: /men, /women, /shirts, ...
-                // dd($catUrls);
-                foreach ($catUrls as $key => $url) {
-                    // Important Note: When you run this Laravel project for the first time and if you're running  the "php artisan migrate" command for the first time, before that you must comment out the $catUrls variable and the following foreach loop in web.php file (routes file), because when we run that artisan command, by then the `categories` table has not been created yet, and this causes an error, so make sure to comment out this code in web.php file before running the "php artisan migrate" command for the first time.
-                    Route::match (['get', 'post'], '/' . $url, 'ProductsController@listing'); // used match() for the HTTP 'GET' requests to render listing.blade.php page and the HTTP 'POST' method for the AJAX request of the Sorting Filter or the HTML Form submission and jQuery for the Sorting Filter WITHOUT AJAX, AND ALSO for submitting the Search Form in listing.blade.php    // e.g.    /men    or    /computers    // Important Note: When you run this Laravel project for the first time and if you're running  the "php artisan migrate" command for the first time, before that you must comment out the $catUrls variable and the following foreach loop in web.php file (routes file), because when we run that artisan command, by then the `categories` table has not been created yet, and this causes an error, so make sure to comment out this code in web.php file before running the "php artisan migrate" command for the first time.
-                }
-            }
+    $catUrls = \App\Models\Category::select('url')->where('status', 1)->get()->pluck('url')->toArray(); 
+    foreach ($catUrls as $key => $url) {
+        Route::match(['get', 'post'], '/' . $url, 'ProductsController@listing'); 
+    }
 
             // Vendor Login/Register
             Route::get('vendor/login-register', 'VendorController@loginRegister'); // render vendor login_register.blade.php page
@@ -170,123 +126,84 @@ Route::
             // Render Single Product Detail Page in front/products/detail.blade.php
             Route::get('/product/{id}', 'ProductsController@detail');
 
-            // The AJAX call from front/js/custom.js file, to show the the correct related `price` and `stock` depending on the selected `size` (from the `products_attributes` table)) by clicking the size <select> box in front/products/detail.blade.php
-            Route::post('get-product-price', 'ProductsController@getProductPrice');
+    Route::get('vendor/login-register', 'VendorController@loginRegister'); 
 
-            // Show all Vendor products in front/products/vendor_listing.blade.php    // This route is accessed from the <a> HTML element in front/products/vendor_listing.blade.php
-            Route::get('/products/{vendorid}', 'ProductsController@vendorListing');
+    Route::post('vendor/register', 'VendorController@vendorRegister'); 
 
-            // Add to Cart <form> submission in front/products/detail.blade.php
-            Route::post('cart/add', 'ProductsController@cartAdd');
+    Route::get('vendor/confirm/{code}', 'VendorController@confirmVendor');
 
-            // Render Cart page (front/products/cart.blade.php)    // this route is accessed from the <a> HTML tag inside the flash message inside cartAdd() method in Front/ProductsController.php (inside front/products/detail.blade.php)
-            Route::get('cart', 'ProductsController@cart')->name('cart');
+    Route::get('/product/{id}', 'ProductsController@detail');
 
-            // Update Cart Item Quantity AJAX call in front/products/cart_items.blade.php. Check front/js/custom.js
-            Route::post('cart/update', 'ProductsController@cartUpdate');
+    Route::post('get-product-price', 'ProductsController@getProductPrice');
 
-            // Delete a Cart Item AJAX call in front/products/cart_items.blade.php. Check front/js/custom.js
-            Route::post('cart/delete', 'ProductsController@cartDelete');
+    Route::get('/products/{vendorid}', 'ProductsController@vendorListing');
 
+    Route::post('cart/add', 'ProductsController@cartAdd');
 
+    Route::get('cart', 'ProductsController@cart')->name('cart');
 
-            // Render User Login/Register page (front/users/login_register.blade.php)
-            Route::get('user/login-register', ['as' => 'login', 'uses' => 'UserController@loginRegister']); // 'as' => 'login'    is Giving this route a name 'login' route in order for the 'auth' middleware ('auth' middleware is the Authenticate.php) to redirect to the right page
-            Route::get('auth/google', [GoogleController::class, 'signInwithGoogle']);
-            Route::get('callback/google', [GoogleController::class, 'callbackToGoogle']);
+    Route::post('cart/update', 'ProductsController@cartUpdate');
 
-            // User Registration (in front/users/login_register.blade.php) <form> submission using an AJAX request. Check front/js/custom.js
-            Route::post('user/register', 'UserController@userRegister');
+    Route::post('cart/delete', 'ProductsController@cartDelete');
 
-            // User Login (in front/users/login_register.blade.php) <form> submission using an AJAX request. Check front/js/custom.js
-            Route::post('user/login', 'UserController@userLogin');
+    Route::get('user/login-register', ['as' => 'login', 'uses' => 'UserController@loginRegister']); 
+    Route::get('auth/google', [GoogleController::class, 'signInwithGoogle']);
+    Route::get('callback/google', [GoogleController::class, 'callbackToGoogle']);
 
-            // User logout (This route is accessed from Logout tab in the drop-down menu in the header (in front/layout/header.blade.php))
-            Route::get('user/logout', 'UserController@userLogout');
+    Route::post('user/register', 'UserController@userRegister');
 
-            // User Forgot Password Functionality (this route is accessed from the <a> tag in front/users/login_register.blade.php through a 'GET' request, and through a 'POST' request when the HTML Form is submitted in front/users/forgot_password.blade.php)
-            Route::match (['get', 'post'], 'user/forgot-password', 'UserController@forgotPassword'); // We used match() method to use get() to render the front/users/forgot_password.blade.php page, and post() when the HTML Form in the same page is submitted    // The POST request is from an AJAX request. Check front/js/custom.js
-        
-            // User account Confirmation E-mail which contains the 'Activation Link' to activate the user account (in resources/views/emails/confirmation.blade.php, using Mailtrap)
-            Route::get('user/confirm/{code}', 'UserController@confirmAccount'); // {code} is the base64 encoded user's 'Activation Code' sent to the user in the Confirmation E-mail with which they have registered, which is received as a Route Parameters/URL Paramters in the 'Activation Link'    // this route is requested (accessed/opened) from inside the mail sent to user (in resources/views/emails/confirmation.blade.php)
-        
-            // Website Search Form (to search for all website products). Check the HTML Form in front/layout/header.blade.php
-            Route::get('search-products', 'ProductsController@listing');
+    Route::post('user/login', 'UserController@userLogin');
 
-            // PIN code Availability Check: check if the PIN code of the user's Delivery Address exists in our database (in both `cod_pincodes` and `prepaid_pincodes`) or not in front/products/detail.blade.php via AJAX. Check front/js/custom.js
-            Route::post('check-pincode', 'ProductsController@checkPincode');
+    Route::get('user/logout', 'UserController@userLogout');
 
-            // Currency update via AJAX. adding function UpdateCurrency called from front/js/custom.js 
-            Route::post('update_currency', 'ProductsController@UpdateCurrency');
+    Route::match(['get', 'post'], 'user/forgot-password', 'UserController@forgotPassword'); 
+
+    Route::get('user/confirm/{code}', 'UserController@confirmAccount');
+
+    Route::get('search-products', 'ProductsController@listing');
+
+    Route::post('check-pincode', 'ProductsController@checkPincode');
+
+    Route::post('update_currency', 'ProductsController@UpdateCurrency');
+
+    Route::match(['get', 'post'], 'contact', 'CmsController@contact');
+
+    Route::post('add-rating', 'RatingController@addRating');
 
 
-            // Render the Contact Us page (front/pages/contact.blade.php) using GET HTTP Requests, or the HTML Form Submission using POST HTTP Requests
-            Route::match (['get', 'post'], 'contact', 'CmsController@contact');
+    Route::group(['middleware' => ['auth']], function() {
+        Route::match(['GET', 'POST'], 'user/account', 'UserController@userAccount');
 
+        Route::post('user/update-password', 'UserController@userUpdatePassword');
 
+        Route::match(['GET', 'POST'], '/checkout', 'ProductsController@checkout');
 
-            // Add Rating & Review on a product in front/products/detail.blade.php
-            Route::post('add-rating', 'RatingController@addRating');
+        Route::post('get-delivery-address', 'AddressController@getDeliveryAddress');
 
+        Route::post('save-delivery-address', 'AddressController@saveDeliveryAddress');
 
+        Route::post('remove-delivery-address', 'AddressController@removeDeliveryAddress');
 
-
-            // Protecting the routes of user (user must be authenticated/logged in) (to prevent access to these links while being unauthenticated/not being logged in (logged out))
-            Route::group(['middleware' => ['auth']], function () {
-                // Render User Account page with 'GET' request (front/users/user_account.blade.php), or the HTML Form submission in the same page with 'POST' request using AJAX (to update user details). Check front/js/custom.js
-                Route::match (['GET', 'POST'], 'user/account', 'UserController@userAccount');
-
-                // User Account Update Password HTML Form submission via AJAX. Check front/js/custom.js
-                Route::post('user/update-password', 'UserController@userUpdatePassword');
-
-
-
-                // Checkout page (using match() method for the 'GET' request for rendering the front/products/checkout.blade.php page or the 'POST' request for the HTML Form submission in the same page (for submitting the user's Delivery Address and Payment Method))
-                Route::match (['GET', 'POST'], '/checkout', 'ProductsController@checkout');
-
-                // Edit Delivery Addresses (Page refresh and fill in the <input> fields with the authenticated/logged in user Delivery Addresses from the `delivery_addresses` database table when clicking on the Edit button) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
-                Route::post('get-delivery-address', 'AddressController@getDeliveryAddress');
-
-                // Save Delivery Addresses via AJAX (save the delivery addresses of the authenticated/logged-in user in `delivery_addresses` database table when submitting the HTML Form) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
-                Route::post('save-delivery-address', 'AddressController@saveDeliveryAddress');
-
-                // Remove Delivery Addresse via AJAX (Page refresh and fill in the <input> fields with the authenticated/logged-in user Delivery Addresses details from the `delivery_addresses` database table when clicking on the Remove button) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
-                Route::post('remove-delivery-address', 'AddressController@removeDeliveryAddress');
-
-                // Rendering Thanks page
-                Route::get('thanks', 'ProductsController@thanks');
+        Route::get('thanks', 'ProductsController@thanks');
 
                 Route::get('user/orders/{id?}', 'OrderController@orders');
 
+        Route::get('paypal', 'PaypalController@pay');
 
+        Route::post('pay', 'PaypalController@pay')->name('payment'); 
 
-                // PayPal routes:
-                // PayPal payment gateway integration in Laravel (this route is accessed from checkout() method in Front/ProductsController.php). Rendering front/paypal/paypal.blade.php page
-                Route::get('paypal', 'PaypalController@paypal');
+        Route::get('success', 'PaypalController@success');
 
-                // Make a PayPal payment
-                Route::post('pay', 'PaypalController@pay')->name('payment');
+        Route::get('error', 'PaypalController@error');
 
-                // PayPal successful payment
-                Route::get('success', 'PaypalController@success');
+        Route::get('iyzipay', 'IyzipayController@iyzipay');
 
-                // PayPal failed payment
-                Route::get('error', 'PaypalController@error');
-
-
-
-                // iyzipay (iyzico) routes:    // iyzico Payment Gateway integration in/with Laravel
-                // iyzico payment gateway integration in Laravel (this route is accessed from checkout() method in Front/ProductsController.php). Rendering front/iyzipay/iyzipay.blade.php page
-                Route::get('iyzipay', 'IyzipayController@iyzipay');
-
-                // Make an iyzipay payment (redirect the user to iyzico payment gateway with the order details)
-                Route::get('iyzipay/pay', 'IyzipayController@pay');
+        Route::get('iyzipay/pay', 'IyzipayController@pay'); 
+    });
 
                 Route::resource('events', EventController::class);
 
             });
-
-        });
 Route::match(['get', 'post'], '/botman', 'App\Http\Controllers\BotManController@handle');
 Route::get('/chatbot', function () {
     return view('chatbot');
