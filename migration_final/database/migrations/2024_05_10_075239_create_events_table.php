@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('store_id')->constrained()->onDelete('cascade');
+            $table->text('description')->nullable();
+            $table->dateTime('event_date');
             $table->timestamps();
         });
+        
     }
 
     /**
